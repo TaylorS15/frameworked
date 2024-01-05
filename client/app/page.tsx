@@ -1,7 +1,6 @@
 'use client';
 import { Editor } from '@monaco-editor/react';
 import { useRef, useState } from 'react';
-import { transpileReact } from './actions';
 
 const placeholderCode =
 	'function App() {\n' +
@@ -21,10 +20,16 @@ export default function Home() {
 
 	async function runCode() {
 		try {
-			const transpiledCode = await transpileReact(code);
+			const response = await fetch('http://localhost:4000/transpile', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ code: code }),
+			}).then((res) => res.json());
 
 			if (iframeRef.current) {
-				const blob = new Blob([transpiledCode], { type: 'text/html' });
+				const blob = new Blob([response.transpiledReact], { type: 'text/html' });
 				const url = URL.createObjectURL(blob);
 				iframeRef.current.src = url;
 				URL.revokeObjectURL(url);
