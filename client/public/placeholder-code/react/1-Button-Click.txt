@@ -1,0 +1,11 @@
+function App() {
+  const [state, setState] = React.useState("");
+  
+  return (
+    <div>
+      <h1>Hello World</h1>
+      <button onClick={() => setState("clicked")}>Click Me</button>
+      <p>{state}</p>
+    </div>
+  );
+}

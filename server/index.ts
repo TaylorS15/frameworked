@@ -12,7 +12,7 @@ app.use(
 	})
 );
 
-app.post('/transpile', async (req, res) => {
+app.post('/transpileReact', async (req, res) => {
 	const code = req.body.code;
 	try {
 		const transpiledCode = await transformAsync(code, {
