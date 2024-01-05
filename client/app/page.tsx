@@ -1,53 +1,36 @@
 'use client';
-import { Editor, OnChange } from '@monaco-editor/react';
+import { Editor } from '@monaco-editor/react';
 import { useRef, useState } from 'react';
+import { transpileReact } from './actions';
 
 const placeholderCode =
 	'function App() {\n' +
-	'\treturn (\n' +
-	'\t\t<div>\n' +
-	'\t\t\t<h1>Hello World</h1>\n' +
-	'\t\t</div>\n' +
-	'\t);\n' +
+	'  const [state, setState] = React.useState("");\n' +
+	'  return (\n' +
+	'    <div>\n' +
+	'      <h1>Hello World</h1>\n' +
+	'      <button onClick={() => setState("clicked")}>Click Me</button>\n' +
+	'      <p>{state}</p>\n' +
+	'    </div>\n' +
+	'  );\n' +
 	'}';
 
 export default function Home() {
 	const [code, setCode] = useState<string>(placeholderCode);
 	const iframeRef = useRef<HTMLIFrameElement>(null);
 
-	const handleEditorChange: OnChange = (value: string | undefined) => {
-		if (value !== undefined) {
-			setCode(value);
-		}
-	};
+	async function runCode() {
+		try {
+			const transpiledCode = await transpileReact(code);
 
-	function runCode() {
-		if (iframeRef.current) {
-			const htmlContent = `
-            <html>
-            <head>
-                <script src="https://unpkg.com/react/umd/react.development.js"></script>
-                <script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
-                <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-            </head>
-            <body>
-                <div id="root"></div>
-                <script type="text/babel">
-                    ${code}
-                    ReactDOM.render(<App />, document.getElementById('root'));
-                </script>
-            </body>
-            </html>
-        `;
-
-			try {
-				const blob = new Blob([htmlContent], { type: 'text/html' });
+			if (iframeRef.current) {
+				const blob = new Blob([transpiledCode], { type: 'text/html' });
 				const url = URL.createObjectURL(blob);
 				iframeRef.current.src = url;
 				URL.revokeObjectURL(url);
-			} catch (error) {
-				console.error('Error running code:', error);
 			}
+		} catch (error) {
+			console.error('Error running code:', error);
 		}
 	}
 
@@ -57,9 +40,14 @@ export default function Home() {
 				<Editor
 					className="w-max h-[500px] rounded-md border-2 border-blue-500"
 					defaultLanguage="javascript"
+					theme="vs-dark"
+					value={code}
 					defaultValue={placeholderCode}
-					onChange={handleEditorChange}
+					onChange={(e) => {
+						if (e) setCode(e);
+					}}
 				/>
+
 				<button
 					className="w-24 h-16 rounded-md border-2 border-green-500"
 					onClick={runCode}>
