@@ -1,70 +1,79 @@
-'use client';
-import { Editor } from '@monaco-editor/react';
-import { useRef, useState } from 'react';
-
-const placeholderCode =
-	'function App() {\n' +
-	'  const [state, setState] = React.useState("");\n' +
-	'  return (\n' +
-	'    <div>\n' +
-	'      <h1>Hello World</h1>\n' +
-	'      <button onClick={() => setState("clicked")}>Click Me</button>\n' +
-	'      <p>{state}</p>\n' +
-	'    </div>\n' +
-	'  );\n' +
-	'}';
+"use client";
+import { Editor } from "@monaco-editor/react";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import { useEffect, useRef, useState } from "react";
+import * as api from "@/app/api";
 
 export default function Home() {
-	const [code, setCode] = useState<string>(placeholderCode);
-	const iframeRef = useRef<HTMLIFrameElement>(null);
+  const [code, setCode] = useState<string>("");
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
-	async function runCode() {
-		try {
-			const response = await fetch('http://localhost:4000/transpile', {
-				method: 'POST',
-				headers: {
-					'Content-Type': 'application/json',
-				},
-				body: JSON.stringify({ code: code }),
-			}).then((res) => res.json());
+  useEffect(() => {
+    fetch("/placeholder-code/react/1-Button-Click.txt")
+      .then((res) => res.text())
+      .then((text) => setCode(text))
+      .catch((err) => console.error(err));
+  }, []);
 
-			if (iframeRef.current) {
-				const blob = new Blob([response.transpiledReact], { type: 'text/html' });
-				const url = URL.createObjectURL(blob);
-				iframeRef.current.src = url;
-				URL.revokeObjectURL(url);
-			}
-		} catch (error) {
-			console.error('Error running code:', error);
-		}
-	}
+  async function saveAndRun() {
+    try {
+      const transpiledCode = await api.transpileReact(code);
 
-	return (
-		<main className="flex min-h-screen flex-col gap-12 items-center">
-			<div className="flex w-full">
-				<Editor
-					className="w-max h-[500px] rounded-md border-2 border-blue-500"
-					defaultLanguage="javascript"
-					theme="vs-dark"
-					value={code}
-					defaultValue={placeholderCode}
-					onChange={(e) => {
-						if (e) setCode(e);
-					}}
-				/>
+      if (iframeRef.current) {
+        const blob = new Blob([transpiledCode], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        iframeRef.current.src = url;
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      console.error("Error running code:", error);
+    }
+  }
 
-				<button
-					className="w-24 h-16 rounded-md border-2 border-green-500"
-					onClick={runCode}>
-					Save & Run
-				</button>
-			</div>
+  console.log("changing");
 
-			<iframe
-				sandbox="allow-scripts"
-				ref={iframeRef}
-				className="h-[500px] w-full rounded-md border-2 border-red-500 bg-white"
-			/>
-		</main>
-	);
+  return (
+    <main className="flex min-h-screen w-screen flex-col items-center justify-center">
+      <ResizablePanelGroup direction="horizontal" className="h-[90vh] w-full">
+        <ResizablePanel
+          defaultSize={200}
+          className="max-h-[90vh] rounded-md border-2 border-purple-500"
+        >
+          <h1>Instruction Panel</h1>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel
+          defaultSize={200}
+          className="flex max-h-[90vh] flex-col gap-2"
+        >
+          <Editor
+            className="rounded-md border-2 border-blue-500"
+            defaultLanguage="javascript"
+            theme="vs-dark"
+            value={code}
+            onChange={(e) => setCode(e ? e : "")}
+          />
+
+          <button
+            className="w-24 rounded-md border-2 border-green-500"
+            onClick={saveAndRun}
+          >
+            Save & Run
+          </button>
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={200} className="max-h-[90vh] w-max">
+          <iframe
+            sandbox="allow-scripts"
+            ref={iframeRef}
+            className="h-full rounded-md border-2 border-red-500 bg-white"
+          />
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </main>
+  );
 }
