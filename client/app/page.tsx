@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/resizable";
 import { useEffect, useRef, useState } from "react";
 import * as api from "@/app/api";
+import { useWindowResize } from "@/app/hooks";
 
 export default function Home() {
   const [code, setCode] = useState<string>("");
@@ -27,17 +28,19 @@ export default function Home() {
   }, []);
 
   async function saveAndRun() {
-    try {
-      const transpiledCode = await api.transpileReact(code);
+    let transpiledCode;
 
-      if (iframeRef.current) {
-        const blob = new Blob([transpiledCode], { type: "text/html" });
-        const url = URL.createObjectURL(blob);
-        iframeRef.current.src = url;
-        URL.revokeObjectURL(url);
-      }
+    try {
+      transpiledCode = await api.transpileReact(code);
     } catch (error) {
-      console.error(error);
+      transpiledCode = "<html><body><h1>Transpilation Error</h1></body></html>";
+    }
+
+    if (iframeRef.current && transpiledCode) {
+      const blob = new Blob([transpiledCode], { type: "text/html" });
+      const url = URL.createObjectURL(blob);
+      iframeRef.current.src = url;
+      URL.revokeObjectURL(url);
     }
   }
 
@@ -48,23 +51,31 @@ export default function Home() {
         style={{ height: "90vh" }}
         className="w-full border-2 border-orange-500"
       >
-        <ResizablePanel className="w-full rounded-md border-2 border-purple-500">
+        <ResizablePanel
+          defaultSize={25}
+          minSize={10}
+          className="rounded-md border-2 border-purple-500"
+        >
           <h1>Instruction Panel</h1>
           <p className="text-sm">{instructions}</p>
         </ResizablePanel>
 
         <ResizableHandle withHandle />
 
-        <ResizablePanel className="flex flex-col gap-2">
+        <ResizablePanel
+          defaultSize={50}
+          minSize={10}
+          className="flex flex-col gap-2"
+        >
           <Editor
-            className="rounded-md border-2 border-blue-500"
+            className="h-auto rounded-md border-2 border-blue-500"
             defaultLanguage="javascript"
             theme="vs-dark"
             value={code}
             onChange={(e) => setCode(e ? e : "")}
           />
           <button
-            className="w-24 rounded-md border-2 border-green-500"
+            className="h-10 w-24 rounded-md border-2 border-green-500"
             onClick={saveAndRun}
           >
             Save & Run
@@ -73,7 +84,7 @@ export default function Home() {
 
         <ResizableHandle withHandle />
 
-        <ResizablePanel className="">
+        <ResizablePanel defaultSize={25} minSize={10}>
           <iframe
             sandbox="allow-scripts"
             ref={iframeRef}
@@ -84,25 +95,3 @@ export default function Home() {
     </main>
   );
 }
-
-const useWindowResize = () => {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  return windowSize ?? { width: 1024, height: 1024 };
-};
