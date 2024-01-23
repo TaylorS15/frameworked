@@ -1,8 +1,11 @@
 {
   "1-Counter": {
-    "react": {
-      "code": "function App() {\n\tconst [value, setValue] = React.useState(0);\n\n\treturn (\n\t\t<div>\n\t\t\t<h1>Counter</h1>\n\t\t\t<button onClick={() => setValue(value + 1)}>Click Me</button>\n\t\t\t<p>{value}</p>\n\t\t</div>\n\t);\n}",
-      "instructions": "Create a button that increments a counter, which is displayed in the UI. Use the React.useState hook to store the counter value."
-    }
+    "frameworks": {
+      "react": {
+        "code": "function App() {\n\tconst [value, setValue] = React.useState(0);\n\n\treturn (\n\t\t<div>\n\t\t\t<h1>Counter</h1>\n\t\t\t<button onClick={() => setValue(value + 1)}>Click Me</button>\n\t\t\t<p>{value}</p>\n\t\t</div>\n\t);\n}",
+        "instructions": "Create a button that increments a counter, which is displayed in the UI. Use the React.useState hook to store the counter value."
+      }
+    },
+    "difficulty": "easy"
   }
 }

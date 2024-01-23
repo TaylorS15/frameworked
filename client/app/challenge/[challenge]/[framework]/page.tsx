@@ -26,9 +26,9 @@ export default function Challenge({
     fetch(`/challenges-map.json/`)
       .then((res) => res.json())
       .then((json) => {
-        const challenge = json[params.challenge][params.framework];
-        setCode(challenge.code);
-        setInstructions(challenge.instructions);
+        const framework = json[params.challenge].frameworks[params.framework];
+        setCode(framework.code);
+        setInstructions(framework.instructions);
       });
   }, [params.challenge, params.framework]);
 
