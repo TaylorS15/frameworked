@@ -39,7 +39,17 @@ export default function ChallengeList() {
                 <h1>{challenge.split("-")[1]}</h1>
               </div>
               <div className="flex gap-4">
-                <p className="my-auto">{challenges[challenge].difficulty}</p>
+                <p
+                  className={`${
+                    challenges[challenge].difficulty === "easy"
+                      ? "text-green-400"
+                      : challenges[challenge].difficulty === "medium"
+                        ? "text-yellow-500"
+                        : "text-red-700"
+                  } my-auto`}
+                >
+                  {challenges[challenge].difficulty}
+                </p>
                 {Object.keys(challenges[challenge].frameworks).map(
                   (framework) => {
                     return (
