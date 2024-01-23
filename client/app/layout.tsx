@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import ReactQueryProvider from "@/components/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -17,9 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en" className="dark">
-        <body className={`${inter.className} bg-teal-1000`}>{children}</body>
-      </html>
+      <ReactQueryProvider>
+        <html lang="en" className="dark">
+          <body className={`${inter.className} bg-teal-1000`}>{children}</body>
+        </html>
+      </ReactQueryProvider>
     </ClerkProvider>
   );
 }

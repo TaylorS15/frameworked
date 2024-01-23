@@ -65,17 +65,6 @@ export default function Challenge({
           <div className="flex-grow overflow-x-hidden overflow-y-scroll">
             <h1>Instruction Panel</h1>
             <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
-            <p className="text-sm">{instructions}</p>
           </div>
         </ResizablePanel>
 

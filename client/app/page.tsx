@@ -3,9 +3,8 @@ import { UserButton } from "@clerk/nextjs";
 
 export default async function Home() {
   return (
-    <main className="flex min-h-screen w-screen flex-col items-center justify-center">
+    <main className="flex min-h-screen w-screen flex-col items-center justify-center gap-8">
       <UserButton />
-      <h1>Framework Challenge</h1>
       <ChallengeList />
     </main>
   );
