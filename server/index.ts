@@ -26,7 +26,7 @@ app.post('/transpileReact', async (req, res) => {
 					<script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
 				</head>
 				<body>
-					<div id="root"></div>
+					<div id="root" style="background-color: #000000;"></div>
 					<script type="text/javascript">
 						${transpiledCode?.code}
         		ReactDOM.render(React.createElement(App), document.getElementById('root'));

@@ -20,6 +20,13 @@ const config: Config = {
     extend: {
       height: {
         "editor-custom": "calc(100% - .5rem)",
+        screen: "100dvh",
+      },
+      minHeight: {
+        screen: "100dvh",
+      },
+      maxHeight: {
+        screen: "100dvh",
       },
       colors: {
         border: "hsl(var(--border))",
@@ -55,11 +62,15 @@ const config: Config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        "teal-1000": "#090F10",
       },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      boxShadow: {
+        custom: "45px 0px 45px 0px",
       },
       keyframes: {
         "accordion-down": {
