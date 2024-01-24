@@ -4,19 +4,19 @@ import ReactIcon from "@/public/react.svg";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { ChallengeList } from "@/app/types";
-import { fetchChallengeData, fetchChallengeList } from "@/app/api";
+import * as api from "@/app/api";
 
 export default function ChallengeList() {
   const { data } = useQuery({
     queryKey: ["challengeList"],
-    queryFn: (): Promise<ChallengeList> => fetchChallengeList(),
+    queryFn: async (): Promise<ChallengeList> => await api.fetchChallengeList(),
   });
 
   return (
     <div className="flex flex-col gap-4">
       {data &&
         Object.keys(data).map((challenge) => {
-          return <ChallengeItem challenge={challenge} />;
+          return <ChallengeItem key={challenge} challenge={challenge} />;
         })}
     </div>
   );
@@ -25,7 +25,7 @@ export default function ChallengeList() {
 function ChallengeItem({ challenge }: { challenge: string }) {
   const { data } = useQuery({
     queryKey: ["challengeData", challenge],
-    queryFn: () => fetchChallengeData(challenge),
+    queryFn: async () => await api.fetchChallengeData(challenge),
   });
 
   return (
@@ -48,13 +48,18 @@ function ChallengeItem({ challenge }: { challenge: string }) {
             >
               {data.difficulty}
             </p>
-            {Object.keys(data.challengeData).map((framework) => {
+            {Object.keys(data.frameworks).map((framework) => {
               return (
                 <Link
                   className="h-10 w-10 rounded-md bg-teal-950 p-[0.1rem] transition-all duration-200 hover:p-0"
                   href={`/challenge/${challenge}/${framework}`}
+                  key={framework}
                 >
-                  <Image alt="react icon" src={ReactIcon} />
+                  <Image
+                    alt="react icon"
+                    src={ReactIcon}
+                    className="transition-all duration-500 hover:rotate-90"
+                  />
                 </Link>
               );
             })}

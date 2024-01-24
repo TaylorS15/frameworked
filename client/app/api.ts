@@ -1,4 +1,4 @@
-import { ChallengeList, Framework } from "@/app/types";
+import { ChallengeList } from "@/app/types";
 
 export async function transpileReact(code: string) {
   const response = await fetch("http://localhost:4000/transpileReact", {
@@ -28,7 +28,7 @@ export async function fetchChallengeData(challenge: string) {
   const challengeData = challengeList[challenge];
 
   return {
-    challengeData: challengeData.frameworks,
+    frameworks: challengeData.frameworks,
     difficulty: challengeData.difficulty,
   };
 }

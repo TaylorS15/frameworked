@@ -10,11 +10,13 @@ import * as api from "@/app/api";
 import { useWindowResize } from "@/app/hooks";
 import { useClerk } from "@clerk/nextjs";
 import Navigation from "@/components/Navigation";
+import { Framework } from "@/app/types";
+import { useQuery } from "@tanstack/react-query";
 
 export default function Challenge({
   params,
 }: {
-  params: { challenge: string; framework: string };
+  params: { challenge: string; framework: Framework };
 }) {
   const [code, setCode] = useState<string>("");
   const [instructions, setInstructions] = useState<string>("");
@@ -22,15 +24,17 @@ export default function Challenge({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const clerk = useClerk();
 
+  const { data, isSuccess } = useQuery({
+    queryKey: ["challengeData", params.challenge],
+    queryFn: async () => await api.fetchChallengeData(params.challenge),
+  });
+
   useEffect(() => {
-    fetch(`/challenges-map.json/`)
-      .then((res) => res.json())
-      .then((json) => {
-        const framework = json[params.challenge].frameworks[params.framework];
-        setCode(framework.code);
-        setInstructions(framework.instructions);
-      });
-  }, [params.challenge, params.framework]);
+    if (isSuccess) {
+      setInstructions(data.frameworks[params.framework]?.instructions ?? "");
+      setCode(data.frameworks[params.framework]?.code ?? "");
+    }
+  }, [isSuccess]);
 
   async function saveAndRun() {
     let transpiledCode = `<html><body><h2 style="color: #FFFFFF;">Client Transpilation Error</h2></body></html>`;

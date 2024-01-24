@@ -5,7 +5,7 @@ export type Challenge = {
     [key in Framework]?: {
       code: string;
       instructions: string;
-    }[];
+    };
   };
   difficulty: "easy" | "medium" | "hard";
 };
