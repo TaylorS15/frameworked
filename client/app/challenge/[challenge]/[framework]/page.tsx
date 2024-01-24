@@ -31,8 +31,8 @@ export default function Challenge({
 
   useEffect(() => {
     if (isSuccess) {
-      setInstructions(data.frameworks[params.framework]?.instructions ?? "");
-      setCode(data.frameworks[params.framework]?.code ?? "");
+      setInstructions(data.frameworks[params.framework].instructions);
+      setCode(data.frameworks[params.framework].code);
     }
   }, [isSuccess]);
 

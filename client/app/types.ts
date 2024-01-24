@@ -2,7 +2,7 @@ export type Framework = "react" | "vue" | "angular" | "svelte";
 
 export type Challenge = {
   frameworks: {
-    [key in Framework]?: {
+    [key in Framework]: {
       code: string;
       instructions: string;
     };
