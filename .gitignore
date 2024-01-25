@@ -1,5 +1,7 @@
 /client/node_modules
 /client/.next
+/client/.env.local
+/client/.env
 /client/next-env.d.ts
 
 /server/node_modules
