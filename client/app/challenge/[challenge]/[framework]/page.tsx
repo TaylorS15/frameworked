@@ -34,7 +34,7 @@ export default function Challenge({
       setInstructions(data.frameworks[params.framework].instructions);
       setCode(data.frameworks[params.framework].code);
     }
-  }, [isSuccess]);
+  }, [isSuccess, data, params.framework]);
 
   async function saveAndRun() {
     let transpiledCode = `<html><body><h2 style="color: #FFFFFF;">Client Transpilation Error</h2></body></html>`;
