@@ -7,17 +7,17 @@ import { ChallengeList } from "@/app/types";
 import * as api from "@/app/api";
 
 export default function ChallengeList() {
-  // const { data } = useQuery({
-  //   queryKey: ["challengeList"],
-  //   queryFn: async (): Promise<ChallengeList> => await api.fetchChallengeList(),
-  // });
+  const { data } = useQuery({
+    queryKey: ["challengeList"],
+    queryFn: async (): Promise<ChallengeList> => await api.fetchChallengeList(),
+  });
 
   return (
     <div className="flex flex-col gap-4">
-      {/* {data &&
+      {data &&
         Object.keys(data).map((challenge) => {
           return <ChallengeItem key={challenge} challenge={challenge} />;
-        })} */}
+        })}
     </div>
   );
 }
