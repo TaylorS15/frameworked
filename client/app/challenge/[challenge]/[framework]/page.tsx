@@ -25,17 +25,17 @@ export default function Challenge({
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const clerk = useClerk();
 
-  const { data, isSuccess } = useQuery({
-    queryKey: ["challengeData", params.challenge],
-    queryFn: async () => await api.fetchChallengeData(params.challenge),
-  });
+  // const { data, isSuccess } = useQuery({
+  //   queryKey: ["challengeData", params.challenge],
+  //   queryFn: async () => await api.fetchChallengeData(params.challenge),
+  // });
 
-  useEffect(() => {
-    if (isSuccess) {
-      setInstructions(data.frameworks[params.framework].instructions);
-      setCode(data.frameworks[params.framework].code);
-    }
-  }, [isSuccess, data, params.framework]);
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     setInstructions(data.frameworks[params.framework].instructions);
+  //     setCode(data.frameworks[params.framework].code);
+  //   }
+  // }, [isSuccess, data, params.framework]);
 
   async function saveAndRun() {
     let transpiledCode = `<html><body><h2 style="color: #FFFFFF;">Client Transpilation Error</h2></body></html>`;

@@ -18,11 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <ReactQueryProvider>
-        <html lang="en" className="dark">
-          <body className={`${inter.className} bg-zinc-950`}>{children}</body>
-        </html>
-      </ReactQueryProvider>
+      {/* <ReactQueryProvider> */}
+      <html lang="en" className="dark">
+        <body className={`${inter.className} bg-zinc-950`}>{children}</body>
+      </html>
+      {/* </ReactQueryProvider> */}
     </ClerkProvider>
   );
 }
