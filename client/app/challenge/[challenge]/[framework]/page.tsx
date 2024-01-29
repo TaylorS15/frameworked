@@ -5,13 +5,14 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
-import { useEffect, useRef, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import * as api from "@/app/api";
 import { useWindowResize } from "@/app/hooks";
 import { useClerk } from "@clerk/nextjs";
 import Navigation from "@/components/Navigation";
 import { Framework } from "@/app/types";
 import { useQuery } from "@tanstack/react-query";
+import Loading from "@/app/challenge/[challenge]/[framework]/loading";
 
 export default function Challenge({
   params,
@@ -54,60 +55,65 @@ export default function Challenge({
   }
 
   return (
-    <main className="flex max-h-screen min-h-screen w-screen flex-col items-center justify-center gap-2 bg-teal-1000">
-      <ResizablePanelGroup
-        direction={deviceSize === "MOBILE" ? "vertical" : "horizontal"}
-        className="w-full flex-grow"
-      >
-        <ResizablePanel
-          defaultSize={25}
-          minSize={10}
-          className="m-2 mt-14 flex flex-col rounded-md border-2 border-teal-950 p-2"
+    <main className="flex max-h-screen min-h-screen w-screen flex-col items-center justify-center gap-2 bg-zinc-950">
+      <Suspense fallback={<Loading />}>
+        <Navigation />
+        <ResizablePanelGroup
+          direction={deviceSize === "MOBILE" ? "vertical" : "horizontal"}
+          className="w-full flex-grow"
         >
-          <Navigation />
-
-          <div className="flex-grow overflow-x-hidden overflow-y-scroll">
-            <h1>Instruction Panel</h1>
-            <p className="text-sm">{instructions}</p>
-          </div>
-        </ResizablePanel>
-
-        <ResizableHandle withHandle className="w-0" />
-
-        <ResizablePanel
-          defaultSize={50}
-          minSize={10}
-          className="m-2 flex flex-col gap-2 rounded-md border-2 border-teal-950 p-2"
-        >
-          {/*only checking if clerk is loaded because something is broken with monaco+clerk. There was a supposed fix pushed to clerk q4 2023, but still throws error*/}
-          {clerk.loaded && (
-            <Editor
-              className="h-editor-custom border-2"
-              defaultLanguage="javascript"
-              theme="vs-dark"
-              value={code}
-              onChange={(e) => setCode(e ? e : "")}
-            />
-          )}
-
-          <button
-            className="h-10 min-h-10 w-24 rounded-md border-2"
-            onClick={saveAndRun}
+          <ResizablePanel
+            defaultSize={25}
+            minSize={10}
+            className="bg-zinc-925 m-2 mt-14 flex flex-col rounded-md border border-zinc-600 p-2 lg:mt-2"
           >
-            Save & Run
-          </button>
-        </ResizablePanel>
+            <div className="flex-grow overflow-x-hidden overflow-y-scroll">
+              <h1>Instruction Panel</h1>
+              <p className="text-sm">{instructions}</p>
+            </div>
+          </ResizablePanel>
 
-        <ResizableHandle withHandle className="w-0" />
+          <ResizableHandle withHandle className="w-0" />
 
-        <ResizablePanel className="m-2" defaultSize={25} minSize={10}>
-          <iframe
-            sandbox="allow-scripts"
-            ref={iframeRef}
-            className="h-full w-full rounded-md border-2 border-teal-950 bg-teal-1000 text-white"
-          />
-        </ResizablePanel>
-      </ResizablePanelGroup>
+          <ResizablePanel
+            defaultSize={50}
+            minSize={10}
+            className="g rounded-mdap-2 bg-zinc-925 m-2 flex flex-col rounded-md border border-zinc-600 p-2"
+          >
+            {/*only checking if clerk is loaded because something is broken with monaco+clerk. There was a supposed fix pushed to clerk q4 2023, but still throws error*/}
+            {clerk.loaded && (
+              <Editor
+                className="h-editor-custom border"
+                defaultLanguage="javascript"
+                theme="vs-dark"
+                value={code}
+                onChange={(e) => setCode(e ? e : "")}
+              />
+            )}
+
+            <button
+              className="h-10 min-h-10 w-24 rounded-md border"
+              onClick={saveAndRun}
+            >
+              Save & Run
+            </button>
+          </ResizablePanel>
+
+          <ResizableHandle withHandle className="w-0" />
+
+          <ResizablePanel
+            className="bg-zinc-925 m-2 rounded-md"
+            defaultSize={25}
+            minSize={10}
+          >
+            <iframe
+              sandbox="allow-scripts"
+              ref={iframeRef}
+              className="bg-zinc-925 h-full w-full rounded-md border border-zinc-600 text-white"
+            />
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </Suspense>
     </main>
   );
 }

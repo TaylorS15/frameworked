@@ -63,6 +63,7 @@ const config: Config = {
           foreground: "hsl(var(--card-foreground))",
         },
         "teal-1000": "#090F10",
+        "zinc-925": "#101010",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -71,6 +72,7 @@ const config: Config = {
       },
       boxShadow: {
         custom: "45px 0px 45px 0px",
+        navigation: "0px 0px 20px -5px rgba(90,90,120,0.8)",
       },
       keyframes: {
         "accordion-down": {

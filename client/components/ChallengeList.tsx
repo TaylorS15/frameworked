@@ -31,7 +31,7 @@ function ChallengeItem({ challenge }: { challenge: string }) {
   return (
     <>
       {data && (
-        <div className="flex h-12 w-96 items-center justify-between rounded-md border border-teal-950 pl-4 pr-1 transition hover:bg-teal-950/30">
+        <div className="flex h-12 w-96 items-center justify-between rounded-md border border-zinc-900 pl-4 pr-1 transition hover:bg-zinc-900/30">
           <div className="flex gap-4">
             <h1>{challenge.split("-")[0]}.</h1>
             <h1>{challenge.split("-")[1]}</h1>
@@ -51,7 +51,7 @@ function ChallengeItem({ challenge }: { challenge: string }) {
             {Object.keys(data.frameworks).map((framework) => {
               return (
                 <Link
-                  className="h-10 w-10 rounded-md bg-teal-950 p-[0.1rem] transition-all duration-200 hover:p-0"
+                  className="h-10 w-10 rounded-md bg-zinc-900 p-[0.1rem] transition-all duration-200 hover:p-0"
                   href={`/challenge/${challenge}/${framework}`}
                   key={framework}
                 >
