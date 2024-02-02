@@ -13,7 +13,7 @@ export default function Navigation() {
 
   return (
     <>
-      <div className="absolute left-0 top-0 w-0 lg:hidden">
+      <div className="absolute left-0 top-0 z-30 w-0 lg:hidden">
         <button
           className={`${
             navState === "CLOSED" ? "opacity-100" : "opacity-0"
@@ -42,7 +42,7 @@ export default function Navigation() {
           <div className="mx-auto mt-14 flex w-11/12 flex-grow select-none flex-col lg:mt-4"></div>
         </div>
       </div>
-      <div className="bg-zinc-925 hidden h-14 w-full flex-row border-b border-zinc-600 lg:flex">
+      <div className="hidden h-14 w-full flex-row border-b border-zinc-600 bg-zinc-925 lg:flex">
         <Link
           className="my-auto ml-2 flex h-4/5 w-36 items-center justify-center rounded-md transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20"
           href="/"

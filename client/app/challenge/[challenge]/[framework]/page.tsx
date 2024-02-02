@@ -80,6 +80,7 @@ export default function Challenge({
             minSize={10}
             className="m-2 mt-14 flex flex-col justify-between rounded-md border border-zinc-600 bg-zinc-925 p-2 lg:mt-2"
           >
+            {/*Maybe throw this shit into global state*/}
             <InstructionPanel
               resetCode={resetCode}
               instructions={instructions}
@@ -108,6 +109,9 @@ export default function Challenge({
                   defaultLanguage="javascript"
                   theme="vs-dark"
                   value={code}
+                  options={{
+                    minimap: { enabled: false },
+                  }}
                   onChange={(e) => setCode(e ? e : "")}
                 />
               </div>
