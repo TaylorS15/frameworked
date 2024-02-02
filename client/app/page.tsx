@@ -18,7 +18,7 @@ export default async function Home() {
           </span>
         </h1>
 
-        <p className="mx-auto w-full bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-center text-xl font-semibold text-transparent md:w-4/5 lg:w-3/5">
+        <p className="mx-auto w-full bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-center text-xl font-semibold text-transparent md:w-4/5">
           <Balancer>
             Test your ability to answer relevant and challenging frontend
             interview questions.

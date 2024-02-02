@@ -80,7 +80,7 @@ export default function Challenge({
             minSize={10}
             className="m-2 mt-14 flex flex-col justify-between rounded-md border border-zinc-600 bg-zinc-925 p-2 lg:mt-2"
           >
-            {/*Maybe throw this shit into global state*/}
+            {/*Maybe throw some of this shit into global state*/}
             <InstructionPanel
               resetCode={resetCode}
               instructions={instructions}
@@ -118,7 +118,7 @@ export default function Challenge({
             )}
 
             <button
-              className="my-auto flex h-10 w-20 items-center justify-center rounded-md transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
+              className="my-auto flex h-10 w-20 items-center justify-center rounded-md border transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
               onClick={saveAndRun}
               disabled={isFetching || !isRunning}
             >

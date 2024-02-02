@@ -13,28 +13,34 @@ export default function InstructionPanel({
   resetCode: () => void;
 }) {
   const [isResetting, setIsResetting] = useState<boolean>(false);
-
   const { seconds, minutes, hours } = useDateTimer(isRunning);
 
   return (
     <>
       <div className="flex-grow overflow-x-hidden overflow-y-scroll">
-        <h1 className="font-bold">Instructions:</h1>
+        <div className="flex justify-between">
+          <h1 className="font-bold">Instructions:</h1>
+          {isRunning && (
+            <p>
+              {hours}h:{minutes}m:{seconds}s
+            </p>
+          )}
+        </div>
         <p className="text-sm">{instructions}</p>
       </div>
       <div className="flex w-full">
         {!isRunning ? (
           <button
-            className="my-auto flex h-8 w-14 items-center justify-center rounded-md text-sm transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
+            className="my-auto flex h-8 w-14 items-center justify-center rounded-md border text-sm transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
             onClick={() => setIsRunning(true)}
           >
             Start
           </button>
         ) : (
-          <div className="flex w-full justify-between">
+          <div className="flex w-full items-end justify-between gap-2">
             {!isResetting ? (
               <button
-                className="my-auto flex h-8 w-14 items-center justify-center rounded-md text-sm transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-red-900/50 hover:to-red-900/20 disabled:cursor-not-allowed disabled:opacity-50"
+                className="my-auto flex h-8 w-14 min-w-14 items-center justify-center rounded-md border text-sm transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-red-900/50 hover:to-red-900/20 disabled:cursor-not-allowed disabled:opacity-50"
                 onClick={() => {
                   setIsResetting(true);
                 }}
@@ -42,10 +48,10 @@ export default function InstructionPanel({
                 Reset
               </button>
             ) : (
-              <div className="flex gap-6">
-                <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-2">
+                <div className="flex flex-row items-center gap-2">
                   <button
-                    className="my-auto flex h-8 w-20 items-center justify-center rounded-md text-sm transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
+                    className="my-auto flex h-8 w-20 min-w-20 items-center justify-center rounded-md border text-sm transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
                     onClick={() => {
                       setIsResetting(false);
                       setIsRunning(false);
@@ -54,12 +60,12 @@ export default function InstructionPanel({
                   >
                     Confirm?
                   </button>
-                  <p className="text-xs text-zinc-400">
+                  <p className="ml-2 min-w-56 text-xs text-zinc-400">
                     You will lose your coding progress.
                   </p>
                 </div>
                 <button
-                  className="my-auto flex h-8 w-14 items-center justify-center rounded-md text-sm transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="my-auto flex h-8 w-14 items-center justify-center rounded-md border text-sm transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
                   onClick={() => {
                     setIsResetting(false);
                   }}
@@ -68,10 +74,6 @@ export default function InstructionPanel({
                 </button>
               </div>
             )}
-
-            <p className="h-8 pt-1">
-              {hours}h:{minutes}m:{seconds}s
-            </p>
           </div>
         )}
       </div>
