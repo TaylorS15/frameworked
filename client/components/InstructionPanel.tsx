@@ -1,26 +1,24 @@
 import { useDateTimer } from "@/app/hooks";
+import { useStore } from "@/app/store";
 import React, { useState } from "react";
 
 export default function InstructionPanel({
   instructions,
-  isRunning,
-  setIsRunning,
   resetCode,
 }: {
   instructions: string;
-  isRunning: boolean;
-  setIsRunning: React.Dispatch<React.SetStateAction<boolean>>;
   resetCode: () => void;
 }) {
+  const { isTimerRunning, setIsTimerRunning } = useStore();
   const [isResetting, setIsResetting] = useState<boolean>(false);
-  const { seconds, minutes, hours } = useDateTimer(isRunning);
+  const { seconds, minutes, hours } = useDateTimer(isTimerRunning);
 
   return (
     <>
       <div className="flex-grow overflow-x-hidden overflow-y-scroll">
         <div className="flex justify-between">
           <h1 className="font-bold">Instructions:</h1>
-          {isRunning && (
+          {isTimerRunning && (
             <p>
               {hours}h:{minutes}m:{seconds}s
             </p>
@@ -29,10 +27,10 @@ export default function InstructionPanel({
         <p className="text-sm">{instructions}</p>
       </div>
       <div className="flex w-full">
-        {!isRunning ? (
+        {!isTimerRunning ? (
           <button
             className="my-auto flex h-8 w-14 items-center justify-center rounded-md border text-sm transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
-            onClick={() => setIsRunning(true)}
+            onClick={() => setIsTimerRunning(true)}
           >
             Start
           </button>
@@ -54,7 +52,7 @@ export default function InstructionPanel({
                     className="my-auto flex h-8 w-20 min-w-20 items-center justify-center rounded-md border text-sm transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
                     onClick={() => {
                       setIsResetting(false);
-                      setIsRunning(false);
+                      setIsTimerRunning(false);
                       resetCode();
                     }}
                   >

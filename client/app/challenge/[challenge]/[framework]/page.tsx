@@ -15,15 +15,16 @@ import Loading from "@/app/challenge/[challenge]/[framework]/loading";
 import { Loader2, PlayIcon } from "lucide-react";
 import InstructionPanel from "@/components/InstructionPanel";
 import { useWindowResize } from "@/app/hooks";
+import { useStore } from "@/app/store";
 
 export default function Challenge({
   params,
 }: {
   params: { challenge: string; framework: Framework };
 }) {
+  const { isTimerRunning, setIsTimerRunning } = useStore();
   const [code, setCode] = useState<string>("");
   const [instructions, setInstructions] = useState<string>("");
-  const [isRunning, setIsRunning] = useState<boolean>(false);
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const deviceSize = useWindowResize();
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -80,12 +81,9 @@ export default function Challenge({
             minSize={10}
             className="m-2 mt-14 flex flex-col justify-between rounded-md border border-zinc-600 bg-zinc-925 p-2 lg:mt-2"
           >
-            {/*Maybe throw some of this shit into global state*/}
             <InstructionPanel
               resetCode={resetCode}
               instructions={instructions}
-              isRunning={isRunning}
-              setIsRunning={setIsRunning}
             />
           </ResizablePanel>
 
@@ -101,7 +99,7 @@ export default function Challenge({
               <div className="relative h-editor-custom w-full">
                 <div
                   className={`${
-                    isRunning ? "hidden" : ""
+                    isTimerRunning ? "hidden" : ""
                   } absolute z-20 h-full w-full rounded-md bg-zinc-700/30 backdrop-blur-sm`}
                 />
                 <Editor
@@ -120,7 +118,7 @@ export default function Challenge({
             <button
               className="my-auto flex h-10 w-20 items-center justify-center rounded-md border transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
               onClick={saveAndRun}
-              disabled={isFetching || !isRunning}
+              disabled={isFetching || !isTimerRunning}
             >
               {!isFetching ? (
                 <>
