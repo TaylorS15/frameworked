@@ -80,10 +80,10 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: rgb(200, 200, 200);
+  background-color: rgb(130, 130, 130);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background-color: rgb(180, 180, 180);
+  background-color: rgb(130, 130, 130);
 }

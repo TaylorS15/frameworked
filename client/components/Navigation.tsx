@@ -17,7 +17,7 @@ export default function Navigation() {
         <button
           className={`${
             navState === "CLOSED" ? "opacity-100" : "opacity-0"
-          } absolute left-2 top-2 h-9 w-9 rounded-md border border-zinc-600 transition-all hover:bg-zinc-900`}
+          } absolute left-2 top-2 h-9 w-9 rounded-md border border-zinc-600 transition-all hover:bg-gradient-to-br hover:from-sky-900/50 hover:to-sky-900/20`}
           onClick={() => setNavState("OPEN")}
           ref={menuButtonRef}
         >
@@ -42,10 +42,9 @@ export default function Navigation() {
           <div className="mx-auto mt-14 flex w-11/12 flex-grow select-none flex-col lg:mt-4"></div>
         </div>
       </div>
-
       <div className="bg-zinc-925 hidden h-14 w-full flex-row border-b border-zinc-600 lg:flex">
         <Link
-          className="my-auto ml-2 flex h-4/5 w-36 items-center justify-center rounded-md transition-all hover:border hover:border-sky-800 hover:bg-gradient-to-br hover:from-sky-900/40 hover:to-sky-900/10"
+          className="my-auto ml-2 flex h-4/5 w-36 items-center justify-center rounded-md transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20"
           href="/"
         >
           <h1 className="">

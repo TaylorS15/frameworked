@@ -1,19 +1,23 @@
 "use client";
 import Link from "next/link";
-import ReactIcon from "@/public/react.svg";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
 import { ChallengeList } from "@/app/types";
 import * as api from "@/app/api";
+import { cn } from "@/lib/utils";
+import ReactIcon from "@/public/react.svg";
+import SvelteIcon from "@/public/svelte.svg";
+import VueIcon from "@/public/vue.svg";
+import AngularIcon from "@/public/angular.svg";
 
-export default function ChallengeList() {
+export default function ChallengeList({ className }: { className?: string }) {
   const { data } = useQuery({
     queryKey: ["challengeList"],
     queryFn: async (): Promise<ChallengeList> => await api.fetchChallengeList(),
   });
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className={cn("bg-zinc-925 flex flex-col items-center", className)}>
       {data &&
         Object.keys(data).map((challenge) => {
           return <ChallengeItem key={challenge} challenge={challenge} />;
@@ -31,12 +35,18 @@ function ChallengeItem({ challenge }: { challenge: string }) {
   return (
     <>
       {data && (
-        <div className="flex h-12 w-96 items-center justify-between rounded-md border border-zinc-900 pl-4 pr-1 transition hover:bg-zinc-900/30">
+        <Link
+          href={`/challenge/${challenge}/${Object.keys(data.frameworks)[0]}`}
+          className="flex h-16 min-h-16 w-full items-center justify-between border border-zinc-700 bg-zinc-950 pl-4 pr-2 transition-all hover:bg-gradient-to-br hover:from-zinc-900/50 hover:to-zinc-900/10"
+        >
           <div className="flex gap-4">
-            <h1>{challenge.split("-")[0]}.</h1>
+            <h1 className="text-sm leading-6 text-zinc-400">
+              {challenge.split("-")[0]}
+            </h1>
             <h1>{challenge.split("-")[1]}</h1>
           </div>
-          <div className="flex gap-4">
+
+          <div className="flex gap-4 pr-2">
             <p
               className={`${
                 data.difficulty === "easy"
@@ -44,27 +54,51 @@ function ChallengeItem({ challenge }: { challenge: string }) {
                   : data.difficulty === "medium"
                     ? "text-yellow-500"
                     : "text-red-700"
-              } my-auto`}
+              } my-auto text-xs`}
             >
               {data.difficulty}
             </p>
+
             {Object.keys(data.frameworks).map((framework) => {
               return (
                 <Link
-                  className="h-10 w-10 rounded-md bg-zinc-900 p-[0.1rem] transition-all duration-200 hover:p-0"
+                  className="flex"
                   href={`/challenge/${challenge}/${framework}`}
                   key={framework}
                 >
-                  <Image
-                    alt="react icon"
-                    src={ReactIcon}
-                    className="transition-all duration-500 hover:rotate-90"
-                  />
+                  {framework === "react" && (
+                    <Image
+                      alt="react icon"
+                      src={ReactIcon}
+                      className="m-auto h-6 w-6 transition-all hover:h-7 hover:w-7"
+                    />
+                  )}
+                  {framework === "svelte" && (
+                    <Image
+                      alt="svelte icon"
+                      src={SvelteIcon}
+                      className="m-auto h-6 w-6 transition-all hover:h-7 hover:w-7"
+                    />
+                  )}
+                  {framework === "vue" && (
+                    <Image
+                      alt="vue icon"
+                      src={VueIcon}
+                      className="m-auto h-6 w-6 transition-all hover:h-7 hover:w-7"
+                    />
+                  )}
+                  {framework === "angular" && (
+                    <Image
+                      alt="angular icon"
+                      src={AngularIcon}
+                      className="m-auto h-6 w-6 transition-all hover:h-7 hover:w-7"
+                    />
+                  )}
                 </Link>
               );
             })}
           </div>
-        </div>
+        </Link>
       )}
     </>
   );
