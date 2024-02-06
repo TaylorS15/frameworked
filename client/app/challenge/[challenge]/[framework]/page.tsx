@@ -21,7 +21,7 @@ export default function Challenge({
   params: { challenge: string; framework: Framework };
 }) {
   const [instructions, setInstructions] = useState<string>("");
-  const { setCurrentCode, setCodeFiles } = useStore();
+  const { setCurrentCode, setChallengeFiles } = useStore();
   const deviceSize = useWindowResize();
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -33,7 +33,7 @@ export default function Challenge({
   useEffect(() => {
     if (isSuccess) {
       setInstructions(data.frameworks[params.framework].instructions);
-      setCodeFiles(data.frameworks[params.framework].code);
+      setChallengeFiles(data.frameworks[params.framework].code);
       setCurrentCode(
         Object.keys(data.frameworks[params.framework].code)[0],
         Object.values(data.frameworks[params.framework].code)[0],

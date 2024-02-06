@@ -14,8 +14,8 @@ export default function EditorPanel({
     isTimerRunning,
     currentCode,
     setCurrentCode,
-    codeFiles,
-    setCodeFiles,
+    challengeFiles,
+    setChallengeFiles,
   } = useStore();
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const clerk = useClerk();
@@ -47,7 +47,7 @@ export default function EditorPanel({
       {clerk.loaded && (
         <>
           <div className="flex h-10 min-h-10 w-full rounded-t-md bg-zinc-925">
-            {Object.keys(codeFiles).map((file) => {
+            {Object.keys(challengeFiles).map((file) => {
               return (
                 <button
                   key={file}
@@ -62,11 +62,11 @@ export default function EditorPanel({
                       : "cursor-not-allowed disabled:opacity-50"
                   }`}
                   onClick={() => {
-                    setCodeFiles({
-                      ...codeFiles,
+                    setChallengeFiles({
+                      ...challengeFiles,
                       [currentCode.fileName]: currentCode.code,
                     });
-                    setCurrentCode(file, codeFiles[file]);
+                    setCurrentCode(file, challengeFiles[file]);
                   }}
                 >
                   <p className="text-center text-xs">

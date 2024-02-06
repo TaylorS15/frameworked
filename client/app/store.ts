@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 interface AppState {
   navState: "OPEN" | "CLOSED";
-  codeFiles: {
+  challengeFiles: {
     [fileName: string]: string;
   };
   currentCode: {
@@ -12,7 +12,7 @@ interface AppState {
   isTimerRunning: boolean;
   isFetchingChallenge: boolean;
   setNavState: (navState: "OPEN" | "CLOSED") => void;
-  setCodeFiles: (codeFiles: { [key: string]: string }) => void;
+  setChallengeFiles: (challengeFiles: { [key: string]: string }) => void;
   setCurrentCode: (fileName: string, code: string) => void;
   setIsTimerRunning: (isRunning: boolean) => void;
   setIsFetchingChallenge: (isFetching: boolean) => void;
@@ -20,7 +20,7 @@ interface AppState {
 
 export const useStore = create<AppState>()((set) => ({
   navState: "CLOSED",
-  codeFiles: {},
+  challengeFiles: {},
   currentCode: {
     fileName: "",
     code: "",
@@ -28,7 +28,7 @@ export const useStore = create<AppState>()((set) => ({
   isTimerRunning: false,
   isFetchingChallenge: false,
   setNavState: (navState) => set(() => ({ navState })),
-  setCodeFiles: (codeFiles) => set(() => ({ codeFiles })),
+  setChallengeFiles: (challengeFiles) => set(() => ({ challengeFiles })),
   setCurrentCode: (fileName, code) =>
     set(() => ({ currentCode: { fileName, code } })),
   setIsTimerRunning: (isTimerRunning) => set(() => ({ isTimerRunning })),
