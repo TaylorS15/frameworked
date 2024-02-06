@@ -2,22 +2,35 @@ import { create } from "zustand";
 
 interface AppState {
   navState: "OPEN" | "CLOSED";
-  currentCode: string;
+  codeFiles: {
+    [fileName: string]: string;
+  };
+  currentCode: {
+    fileName: string;
+    code: string;
+  };
   isTimerRunning: boolean;
   isFetchingChallenge: boolean;
   setNavState: (navState: "OPEN" | "CLOSED") => void;
-  setCurrentCode: (code: string) => void;
+  setCodeFiles: (codeFiles: { [key: string]: string }) => void;
+  setCurrentCode: (fileName: string, code: string) => void;
   setIsTimerRunning: (isRunning: boolean) => void;
   setIsFetchingChallenge: (isFetching: boolean) => void;
 }
 
 export const useStore = create<AppState>()((set) => ({
   navState: "CLOSED",
-  currentCode: "",
+  codeFiles: {},
+  currentCode: {
+    fileName: "",
+    code: "",
+  },
   isTimerRunning: false,
   isFetchingChallenge: false,
   setNavState: (navState) => set(() => ({ navState })),
-  setCurrentCode: (currentCode) => set(() => ({ currentCode })),
+  setCodeFiles: (codeFiles) => set(() => ({ codeFiles })),
+  setCurrentCode: (fileName, code) =>
+    set(() => ({ currentCode: { fileName, code } })),
   setIsTimerRunning: (isTimerRunning) => set(() => ({ isTimerRunning })),
   setIsFetchingChallenge: (isFetchingChallenge) =>
     set(() => ({ isFetchingChallenge })),

@@ -21,7 +21,7 @@ export default function Challenge({
   params: { challenge: string; framework: Framework };
 }) {
   const [instructions, setInstructions] = useState<string>("");
-  const { setCurrentCode } = useStore();
+  const { setCurrentCode, setCodeFiles } = useStore();
   const deviceSize = useWindowResize();
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -33,13 +33,21 @@ export default function Challenge({
   useEffect(() => {
     if (isSuccess) {
       setInstructions(data.frameworks[params.framework].instructions);
-      setCurrentCode(data.frameworks[params.framework].code);
+      setCodeFiles(data.frameworks[params.framework].code);
+      setCurrentCode(
+        Object.keys(data.frameworks[params.framework].code)[0],
+        Object.values(data.frameworks[params.framework].code)[0],
+      );
     }
   }, [isSuccess, data, params.framework]);
 
   //Created to make passing props to InstructionPanel easier
   function resetCode() {
-    if (isSuccess) setCurrentCode(data.frameworks[params.framework].code);
+    if (isSuccess)
+      setCurrentCode(
+        Object.keys(data.frameworks[params.framework].code)[0],
+        Object.values(data.frameworks[params.framework].code)[0],
+      );
   }
 
   return (
@@ -66,7 +74,7 @@ export default function Challenge({
           <ResizablePanel
             defaultSize={50}
             minSize={10}
-            className="m-2 flex flex-col gap-2 rounded-md border border-zinc-600 bg-zinc-925 p-2"
+            className="m-2 flex flex-col rounded-md border border-zinc-600 bg-zinc-925 p-2"
           >
             <EditorPanel iframeRef={iframeRef} />
           </ResizablePanel>
