@@ -14,7 +14,7 @@ export default function Navigation() {
   return (
     <>
       <div className="absolute left-0 top-0 z-30 w-0 lg:hidden">
-        <button
+        {/* <button
           className={`${
             navState === "CLOSED" ? "opacity-100" : "opacity-0"
           } absolute left-2 top-2 h-9 w-9 rounded-md border border-zinc-600 transition-all hover:bg-gradient-to-br hover:from-sky-900/50 hover:to-sky-900/20`}
@@ -22,7 +22,19 @@ export default function Navigation() {
           ref={menuButtonRef}
         >
           <Menu className="h-full w-full text-zinc-600" strokeWidth={0.75} />
-        </button>
+        </button> */}
+
+        <Link
+          className="absolute m-2 flex h-10 w-36 items-center justify-center rounded-md border transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20"
+          href="/"
+        >
+          <h1>
+            Frame
+            <span className="bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text font-extrabold text-transparent">
+              Worked
+            </span>
+          </h1>
+        </Link>
 
         <div
           className={`${
@@ -47,7 +59,7 @@ export default function Navigation() {
           className="my-auto ml-2 flex h-4/5 w-36 items-center justify-center rounded-md transition-all hover:border hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20"
           href="/"
         >
-          <h1 className="">
+          <h1>
             Frame
             <span className="bg-gradient-to-r from-sky-400 to-sky-600 bg-clip-text font-extrabold text-transparent">
               Worked

@@ -56,7 +56,7 @@ export default function EditorPanel({
                     currentCode.fileName === file
                       ? "bg-zinc-800"
                       : "hover:bg-zinc-900"
-                  } h-full w-24 min-w-24 rounded-t-md transition-all  ${
+                  } h-full w-24 min-w-24 rounded-t-md transition-all ${
                     isTimerRunning
                       ? ""
                       : "cursor-not-allowed disabled:opacity-50"
@@ -89,6 +89,7 @@ export default function EditorPanel({
               value={currentCode.code}
               options={{
                 minimap: { enabled: false },
+                wrappingIndent: "same",
               }}
               onChange={(e) => setCurrentCode(currentCode.fileName, e ? e : "")}
             />

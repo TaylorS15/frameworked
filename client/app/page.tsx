@@ -11,14 +11,14 @@ export default async function Home() {
       </div>
 
       <div className="mt-24 flex flex-col gap-8">
-        <h1 className="mx-auto bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-6xl text-transparent md:text-7xl">
+        <h1 className="mx-auto bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-5xl text-transparent sm:text-6xl md:text-7xl">
           Frame
           <span className="bg-gradient-to-br from-sky-300 to-sky-600 bg-clip-text font-semibold text-transparent">
             Worked
           </span>
         </h1>
 
-        <p className="mx-auto w-full bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-center text-xl font-semibold text-transparent md:w-4/5">
+        <p className="mx-auto w-5/6 bg-gradient-to-br from-white to-zinc-400 bg-clip-text text-center text-xl font-semibold text-transparent">
           <Balancer>
             Test your ability to answer relevant and challenging frontend
             interview questions.
@@ -35,7 +35,7 @@ export default async function Home() {
         </SignedOut>
       </div>
 
-      <ChallengeList className="mt-48 h-[28rem] w-4/5 overflow-y-scroll rounded-md border border-zinc-600 lg:w-[42rem]" />
+      <ChallengeList className="mb-24 mt-24 h-[28rem] w-4/5 overflow-y-scroll rounded-md border border-zinc-600 lg:w-[42rem]" />
     </main>
   );
 }

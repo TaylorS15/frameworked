@@ -20,7 +20,7 @@ export default function RootLayout({
     <ClerkProvider>
       <ReactQueryProvider>
         <html lang="en" className="dark">
-          <body className={`${inter.className} bg-zinc-950`}>{children}</body>
+          <body className={`${inter.className} bg-zinc-900`}>{children}</body>
         </html>
       </ReactQueryProvider>
     </ClerkProvider>
