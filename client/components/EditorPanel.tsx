@@ -4,7 +4,6 @@ import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
 import * as api from "@/app/api";
 import { Loader2, PlayIcon } from "lucide-react";
-import { Framework } from "@/app/types";
 
 export default function EditorPanel({
   iframeRef,
@@ -21,15 +20,20 @@ export default function EditorPanel({
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const clerk = useClerk();
 
-  async function fetchAndRunCode() {
+  async function saveAndRunCode() {
     setIsFetching(true);
+
+    setChallengeFiles({
+      ...challengeFiles,
+      [currentCode.fileName]: currentCode.code,
+    });
 
     let transpiledCode = `<html><body><h2 style="color: #FFFFFF;">Client Transpilation Error</h2></body></html>`;
 
     try {
       transpiledCode = await api.transpileReact(
-        challengeFiles.index_html,
-        challengeFiles.index_css,
+        challengeFiles.App_js,
+        challengeFiles.styles_css,
       );
     } catch (error) {
       transpiledCode = `<html><body><h2 style="color: #FFFFFF;">Server Transpilation Error</h2></body></html>`;
@@ -109,7 +113,7 @@ export default function EditorPanel({
 
       <button
         className="mt-2 flex h-10 min-h-10 w-20 items-center justify-center rounded-md border transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
-        onClick={fetchAndRunCode}
+        onClick={saveAndRunCode}
         disabled={isFetching || !isTimerRunning}
       >
         {!isFetching ? (
