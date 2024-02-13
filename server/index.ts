@@ -14,23 +14,26 @@ app.use(
 
 app.post('/transpileReact', async (req, res) => {
 	const code = req.body.code;
+	const css = req.body.css;
 	try {
-		const transpiledCode = await transformAsync(code, {
+		const fullCode = `${code} ReactDOM.createRoot(document.getElementById('root')).render(<App />);`;
+		const transpiledCode = await transformAsync(fullCode, {
 			presets: ['@babel/preset-env', '@babel/preset-react'],
 		});
 
 		const htmlContent = `
 			<html>
 				<head>
-					<link rel="stylesheet" href="" />
 					<script src="https://unpkg.com/react/umd/react.development.js"></script>
 					<script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
+					<style>
+						${css}
+					</style>
 				</head>
 				<body>
 					<div id="root"></div>
 					<script type="text/javascript">
 						${transpiledCode?.code}
-        		ReactDOM.render(React.createElement(App), document.getElementById('root'));
 					</script>
 				</body>
 			</html>

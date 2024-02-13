@@ -4,6 +4,7 @@ import { Editor } from "@monaco-editor/react";
 import { useState } from "react";
 import * as api from "@/app/api";
 import { Loader2, PlayIcon } from "lucide-react";
+import { Framework } from "@/app/types";
 
 export default function EditorPanel({
   iframeRef,
@@ -20,13 +21,16 @@ export default function EditorPanel({
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const clerk = useClerk();
 
-  async function saveAndRun() {
+  async function fetchAndRunCode() {
     setIsFetching(true);
 
     let transpiledCode = `<html><body><h2 style="color: #FFFFFF;">Client Transpilation Error</h2></body></html>`;
 
     try {
-      transpiledCode = await api.transpileReact(currentCode.code);
+      transpiledCode = await api.transpileReact(
+        challengeFiles.index_html,
+        challengeFiles.index_css,
+      );
     } catch (error) {
       transpiledCode = `<html><body><h2 style="color: #FFFFFF;">Server Transpilation Error</h2></body></html>`;
     }
@@ -91,7 +95,13 @@ export default function EditorPanel({
                 minimap: { enabled: false },
                 wrappingIndent: "same",
               }}
-              onChange={(e) => setCurrentCode(currentCode.fileName, e ? e : "")}
+              onChange={(e) => {
+                setCurrentCode(currentCode.fileName, e ? e : "");
+                setChallengeFiles({
+                  ...challengeFiles,
+                  [currentCode.fileName]: currentCode.code,
+                });
+              }}
             />
           </div>
         </>
@@ -99,7 +109,7 @@ export default function EditorPanel({
 
       <button
         className="mt-2 flex h-10 min-h-10 w-20 items-center justify-center rounded-md border transition-all hover:border-zinc-600 hover:bg-gradient-to-br hover:from-blue-900/50 hover:to-blue-900/20 disabled:cursor-not-allowed disabled:opacity-50"
-        onClick={saveAndRun}
+        onClick={fetchAndRunCode}
         disabled={isFetching || !isTimerRunning}
       >
         {!isFetching ? (
