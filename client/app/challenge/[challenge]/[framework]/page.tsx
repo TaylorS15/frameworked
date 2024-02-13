@@ -48,6 +48,8 @@ export default function Challenge({
         Object.keys(data.frameworks[params.framework].code)[0],
         Object.values(data.frameworks[params.framework].code)[0],
       );
+
+    if (iframeRef.current) iframeRef.current.src = "";
   }
 
   return (

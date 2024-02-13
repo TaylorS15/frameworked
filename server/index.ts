@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
-import { transformAsync } from '@babel/core';
+import fs from 'fs';
+import { webpack } from 'webpack';
 
 const app = express();
 const port = 4000;
@@ -13,36 +14,70 @@ app.use(
 );
 
 app.post('/transpileReact', async (req, res) => {
-	const code = req.body.code;
-	const css = req.body.css;
 	try {
-		const fullCode = `${code} ReactDOM.createRoot(document.getElementById('root')).render(<App />);`;
-		const transpiledCode = await transformAsync(fullCode, {
-			presets: ['@babel/preset-env', '@babel/preset-react'],
-		});
+		const code =
+			"import React from 'react';\nimport ReactDOM from 'react-dom';\n" +
+			req.body.code +
+			"\n\nReactDOM.createRoot(document.getElementById('root')).render(<App/>);";
+		const css = req.body.css;
 
-		const htmlContent = `
-			<html>
-				<head>
-					<script src="https://unpkg.com/react/umd/react.development.js"></script>
-					<script src="https://unpkg.com/react-dom/umd/react-dom.development.js"></script>
-					<style>
-						${css}
-					</style>
-				</head>
-				<body>
-					<div id="root"></div>
-					<script type="text/javascript">
-						${transpiledCode?.code}
-					</script>
-				</body>
-			</html>
-		`;
+		fs.writeFileSync('./temp.js', code);
 
-		res.json({ transpiledReact: htmlContent });
-	} catch (error) {
-		console.log(error);
-		res.status(500).send(error);
+		webpack(
+			{
+				entry: './temp.js',
+				output: {
+					filename: 'bundle.js',
+					path: __dirname,
+				},
+				mode: 'production',
+				module: {
+					rules: [
+						{
+							test: /\.(js|jsx)$/,
+							use: {
+								loader: 'babel-loader',
+								options: {
+									presets: ['@babel/preset-react', '@babel/preset-env'],
+								},
+							},
+						},
+					],
+				},
+			},
+			(err, stats) => {
+				if (err || stats?.hasErrors()) {
+					console.error('Compiler error:', err, stats?.toString());
+					res.status(500).send('Error transpiling code');
+					return;
+				}
+
+				const bundledCode = fs.readFileSync('./bundle.js', 'utf-8');
+
+				fs.unlinkSync('./temp.js');
+				fs.unlinkSync('./bundle.js');
+				fs.unlinkSync('./bundle.js.LICENSE.txt');
+
+				const htmlContent = `
+					<html>
+						<head>
+							<style>${css}</style>
+						</head>
+						<body>
+							<div id="root"></div>
+							<script type="text/javascript">
+								${bundledCode}
+							</script>
+						</body>
+					</html>
+    		`;
+
+				res.json({ transpiledReact: htmlContent });
+			}
+		);
+	} catch (err) {
+		console.error(err);
+		res.status(500).send('Error transpiling code');
 	}
 });
 
