@@ -1,64 +1,62 @@
-const fs = require('fs');
 const webpack = require('webpack');
+const fs = require('fs');
+const path = require('path');
+const ufs = require('unionfs').ufs;
+const { createFsFromVolume, Volume } = require('memfs');
 const workerpool = require('workerpool');
 
 function transpile(code, css) {
-	return new Promise((resolve, reject) => {
-		const uniqueFilename = `./temp_${Date.now()}_${Math.random()}.js`;
-		fs.writeFileSync(uniqueFilename, code);
+	return new Promise(async (resolve, reject) => {
+		const date = Date.now();
+		const uniqueFilename = `/temp_${date}_${Math.floor(date * Math.random())}.js`;
 
-		webpack(
-			{
-				entry: uniqueFilename,
-				output: {
-					filename: 'bundle.js',
-					path: __dirname,
-				},
-				mode: 'production',
-				module: {
-					rules: [
-						{
-							test: /\.(js|jsx)$/,
-							use: {
-								loader: 'babel-loader',
-								options: {
-									presets: ['@babel/preset-react', '@babel/preset-env'],
-								},
+		const memfsVol = createFsFromVolume(new Volume());
+		memfsVol.mkdirSync(__dirname, { recursive: true });
+		memfsVol.writeFileSync(path.join(__dirname, uniqueFilename), code);
+
+		ufs.use(fs).use(memfsVol);
+
+		const compiler = webpack({
+			mode: 'production',
+			entry: uniqueFilename,
+			output: {
+				path: __dirname,
+				filename: 'bundle.js',
+			},
+			module: {
+				rules: [
+					{
+						test: /\.js$/,
+						use: {
+							loader: 'babel-loader',
+							options: {
+								presets: ['@babel/preset-env', '@babel/preset-react'],
 							},
 						},
-					],
-				},
+					},
+				],
 			},
-			(err, stats) => {
-				if (err || stats?.hasErrors()) {
-					console.error('Compiler error:', err, stats?.toString());
-					reject('Error transpiling code');
-					return;
-				}
+		});
 
-				const bundledCode = fs.readFileSync('./bundle.js', 'utf-8');
+		compiler.inputFileSystem = ufs;
+		compiler.outputFileSystem = memfsVol;
 
-				fs.unlinkSync(uniqueFilename);
-				fs.unlinkSync('./bundle.js');
-				fs.unlinkSync('./bundle.js.LICENSE.txt');
-
-				const htmlContent = `
-          <html>
-            <head>
-              <style>${css}</style>
-            </head>
-            <body>
-              <div id="root"></div>
-              <script type="text/javascript">
-                ${bundledCode}
-              </script>
-            </body>
-          </html>
-        `;
-
-				resolve(htmlContent);
+		compiler.run((err, stats) => {
+			if (err) {
+				console.log(err);
+				reject();
+				return;
 			}
-		);
+
+			const bundledCode = memfsVol.readFileSync(path.join(__dirname, 'bundle.js'), 'utf-8');
+
+			ufs.unlinkSync(path.join(__dirname, uniqueFilename));
+			ufs.unlinkSync(path.join(__dirname, 'bundle.js'));
+			ufs.unlinkSync(path.join(__dirname, 'bundle.js.LICENSE.txt'));
+
+			const htmlContent = `<html>\n\t<head>\n\t\t<style>${css}</style>\n\t</head>\n\t<body>\n\t\t<div id="root"></div>\n\t\t<script type="text/javascript">\n\t\t\t${bundledCode}\n\t\t</script>\n\t</body>\n</html>`;
+			resolve(htmlContent);
+		});
 	});
 }
 

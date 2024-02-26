@@ -20,7 +20,6 @@ app.post('/transpileReact', async (req, res) => {
 	try {
 		const t0 = performance.now();
 		const initialMemoryUsage = process.memoryUsage().heapUsed / 1024 / 1024;
-
 		const code =
 			"import React from 'react';\nimport ReactDOM from 'react-dom';\n" +
 			req.body.code +
