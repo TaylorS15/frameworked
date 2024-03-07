@@ -21,7 +21,7 @@ export default function Challenge({
   params: { challenge: string; framework: Framework };
 }) {
   const [instructions, setInstructions] = useState<string>("");
-  const { setCurrentCode, setChallengeFiles } = useStore();
+  const { setCurrentCode, setChallengeFiles, setIsTimerRunning } = useStore();
   const deviceSize = useWindowResize();
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -29,6 +29,11 @@ export default function Challenge({
     queryKey: ["challengeData", params.challenge],
     queryFn: async () => await api.fetchChallengeData(params.challenge),
   });
+
+  useEffect(() => {
+    setIsTimerRunning(false);
+    resetCode();
+  }, []);
 
   useEffect(() => {
     if (isSuccess) {

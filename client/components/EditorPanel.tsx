@@ -18,6 +18,7 @@ export default function EditorPanel({
     setChallengeFiles,
   } = useStore();
   const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [language, setLanguage] = useState<string>("javascript");
   const clerk = useClerk();
 
   async function saveAndRunCode() {
@@ -61,13 +62,9 @@ export default function EditorPanel({
                   key={file}
                   disabled={!isTimerRunning}
                   className={`${
-                    currentCode.fileName === file
-                      ? "bg-zinc-800"
-                      : "hover:bg-zinc-900"
+                    currentCode.fileName === file ? "bg-zinc-800" : "hover:bg-zinc-900"
                   } h-full w-24 min-w-24 rounded-t-md transition-all ${
-                    isTimerRunning
-                      ? ""
-                      : "cursor-not-allowed disabled:opacity-50"
+                    isTimerRunning ? "" : "cursor-not-allowed disabled:opacity-50"
                   }`}
                   onClick={() => {
                     setChallengeFiles({
@@ -75,11 +72,13 @@ export default function EditorPanel({
                       [currentCode.fileName]: currentCode.code,
                     });
                     setCurrentCode(file, challengeFiles[file]);
+
+                    let splitLanguage = file.split("_")[1];
+                    splitLanguage === "js" && (splitLanguage = "javascript");
+                    setLanguage(splitLanguage);
                   }}
                 >
-                  <p className="text-center text-xs">
-                    {file.replace("_", ".")}
-                  </p>
+                  <p className="text-center text-xs">{file.replace("_", ".")}</p>
                 </button>
               );
             })}
@@ -92,7 +91,7 @@ export default function EditorPanel({
             />
             <Editor
               className="h-editor-custom rounded-b-md"
-              defaultLanguage="javascript"
+              language={language}
               theme="vs-dark"
               value={currentCode.code}
               options={{
