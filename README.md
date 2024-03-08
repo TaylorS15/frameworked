@@ -41,12 +41,16 @@ The app is currently in a very early stage of development. To bring the app to a
 -   More challenges
 -   Frontend functionality and design improvements (see issues)
 -   Backend improvements (see issues)
+-   Testing
+-   Improved local setup experience
 
 After v1.0.0, I would like to create a hosted version of the app and add more features such as:
 
 -   User authentication
 -   Leaderboards
 -   Hosted DB to store user progress
+-   Heightened security measures
+-   Improved backend performance
 
 A hosted version of the app would likely require a paid plan to cover server costs. These features would very likely be free for any locally hosted version of the app and would consist of potential features such as:
 
