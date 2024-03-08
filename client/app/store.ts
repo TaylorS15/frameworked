@@ -29,9 +29,7 @@ export const useStore = create<AppState>()((set) => ({
   isFetchingChallenge: false,
   setNavState: (navState) => set(() => ({ navState })),
   setChallengeFiles: (challengeFiles) => set(() => ({ challengeFiles })),
-  setCurrentCode: (fileName, code) =>
-    set(() => ({ currentCode: { fileName, code } })),
+  setCurrentCode: (fileName, code) => set(() => ({ currentCode: { fileName, code } })),
   setIsTimerRunning: (isTimerRunning) => set(() => ({ isTimerRunning })),
-  setIsFetchingChallenge: (isFetchingChallenge) =>
-    set(() => ({ isFetchingChallenge })),
+  setIsFetchingChallenge: (isFetchingChallenge) => set(() => ({ isFetchingChallenge })),
 }));

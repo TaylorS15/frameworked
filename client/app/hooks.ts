@@ -32,9 +32,7 @@ export function useClickOutside(
     if (
       ref.current &&
       !ref.current.contains(event.target as Node) &&
-      ignoredElements.every(
-        (dep) => !dep.current?.contains(event.target as Node),
-      )
+      ignoredElements.every((dep) => !dep.current?.contains(event.target as Node))
     ) {
       setNavState("CLOSED");
     }
