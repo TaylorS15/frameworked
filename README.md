@@ -2,6 +2,8 @@
 
 Frameworked is a web app that allows users to practice frontend coding challenges using frameworks such as React, Vue, Angular, and Svelte.
 
+Join the discord [here](https://discord.gg/4FDYA6wx56) to discuss the project and its future.
+
 ## Tech Stack
 
 ### Frontend:
@@ -38,11 +40,13 @@ To add a challenge to the app, add the data to `/client/public/challenges-map.js
 The app is currently in a very early stage of development. To bring the app to a potential v1.0.0, the following features need to be implemented:
 
 -   Local DB to store user progress
+-   Backend support for more frameworks
 -   More challenges
 -   Frontend functionality and design improvements (see issues)
 -   Backend improvements (see issues)
 -   Testing
 -   Improved local setup experience
+-   Exploring the possibility of backend testing of user code to give more feedback on submitted code.
 
 After v1.0.0, I would like to create a hosted version of the app and add more features such as:
 

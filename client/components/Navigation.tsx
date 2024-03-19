@@ -14,6 +14,7 @@ export default function Navigation() {
   return (
     <>
       <div className="absolute left-0 top-0 z-30 w-0 lg:hidden">
+        {/** Currently unused navigation button */}
         {/* <button
           className={`${
             navState === "CLOSED" ? "opacity-100" : "opacity-0"

@@ -68,9 +68,9 @@ export default function EditorPanel({
                 });
                 setCurrentCode(file, challengeFiles[file]);
 
-                let splitLanguage = file.split("_")[1];
-                splitLanguage === "js" && (splitLanguage = "javascript");
-                setLanguage(splitLanguage);
+                let parsedLanguage = file.split("_")[1];
+                if (parsedLanguage === "js") parsedLanguage = "javascript";
+                setLanguage(parsedLanguage);
               }}
             >
               <p className="text-center text-xs">{file.replace("_", ".")}</p>
