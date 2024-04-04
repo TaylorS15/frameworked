@@ -1,8 +1,9 @@
 # Frameworked
 
+
 Frameworked is a web app that allows users to practice frontend coding challenges using frameworks such as React, Vue, Angular, and Svelte.
 
-Join the discord [here](https://discord.gg/4FDYA6wx56) to discuss the project and its future.
+(Frameworked is very WIP and early!)
 
 ## Tech Stack
 
