@@ -1,7 +1,7 @@
 import { ChallengeList } from "@/app/types";
 
 export async function transpileReact(code: string, css: string) {
-  const response = await fetch(`http://localhost:3001/transpileReact`, {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/transpile-react`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

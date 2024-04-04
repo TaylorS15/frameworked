@@ -16,7 +16,7 @@ app.use(
 	})
 );
 
-app.post('/transpileReact', async (req, res) => {
+app.post('/transpile-react', async (req, res) => {
 	const code =
 		"import React from 'react';\nimport ReactDOM from 'react-dom';\n" +
 		req.body.code +
@@ -75,7 +75,10 @@ app.post('/transpileReact', async (req, res) => {
 				return;
 			}
 
-			const bundledCode = memfs.readFileSync(path.join(__dirname, bundleFilename), 'utf-8');
+			const bundledCode = memfs.readFileSync(
+				path.join(__dirname, bundleFilename),
+				'utf-8'
+			);
 
 			memfs.unlinkSync(path.join(__dirname, tempFilename));
 			memfs.unlinkSync(path.join(__dirname, bundleFilename));
