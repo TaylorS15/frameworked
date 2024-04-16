@@ -2,7 +2,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useQuery } from "@tanstack/react-query";
-import { ChallengeList } from "@/app/types";
+import { ChallengeItemsList } from "@/app/types";
 import * as api from "@/app/api";
 import { cn } from "@/lib/utils";
 import ReactIcon from "@/public/react.svg";
@@ -13,7 +13,7 @@ import AngularIcon from "@/public/angular.svg";
 export default function ChallengeList({ className }: { className?: string }) {
   const { data } = useQuery({
     queryKey: ["challengeList"],
-    queryFn: async (): Promise<ChallengeList> => await api.fetchChallengeList(),
+    queryFn: async (): Promise<ChallengeItemsList> => await api.fetchChallengeList(),
   });
 
   return (

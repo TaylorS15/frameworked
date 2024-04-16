@@ -1,4 +1,4 @@
-import { ChallengeList } from "@/app/types";
+import { ChallengeItemsList } from "@/app/types";
 
 export async function transpileReact(code: string, css: string) {
   const response = await fetch(`${process.env.NEXT_PUBLIC_API_ROUTE}/transpile-react`, {
@@ -13,7 +13,7 @@ export async function transpileReact(code: string, css: string) {
 }
 
 export async function fetchChallengeList() {
-  const challengeList: ChallengeList = await fetch("/challenges-map.json/", {
+  const challengeList: ChallengeItemsList = await fetch("/challenges-map.json/", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

@@ -72,9 +72,7 @@ export default function Challenge({
           >
             <InstructionPanel resetCode={resetCode} instructions={instructions} />
           </ResizablePanel>
-
           <ResizableHandle withHandle className="w-0" />
-
           <ResizablePanel
             defaultSize={50}
             minSize={10}
@@ -82,9 +80,7 @@ export default function Challenge({
           >
             <EditorPanel iframeRef={iframeRef} />
           </ResizablePanel>
-
           <ResizableHandle withHandle className="w-0" />
-
           <ResizablePanel
             className="m-2 rounded-md bg-zinc-925"
             defaultSize={25}

@@ -12,6 +12,6 @@ export type Challenge = {
   difficulty: "easy" | "medium" | "hard";
 };
 
-export type ChallengeList = {
+export type ChallengeItemsList = {
   [key: string]: Challenge;
 };
