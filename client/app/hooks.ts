@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-export function useWindowResize() {
+export function useWindowResize(): "MOBILE" | "DESKTOP" {
   const [windowSize, setWindowSize] = useState<"MOBILE" | "DESKTOP">("DESKTOP");
 
   useEffect(() => {
@@ -27,7 +27,7 @@ export function useClickOutside(
   ref: React.RefObject<HTMLElement>,
   setNavState: (string: "OPEN" | "CLOSED") => void,
   ignoredElements: React.RefObject<HTMLElement>[],
-) {
+): void {
   const handleClickOutside = (event: MouseEvent) => {
     if (
       ref.current &&
