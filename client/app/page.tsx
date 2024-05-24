@@ -20,7 +20,7 @@ export default async function Home() {
         </p>
       </div>
 
-      <ChallengeList className="mb-24 mt-24 h-[28rem] w-4/5 overflow-y-scroll rounded-md border border-zinc-600 lg:w-[42rem]" />
+      <ChallengeList className="mb-24 mt-24 h-[28rem] w-4/5 overflow-y-scroll rounded-md lg:w-[42rem]" />
     </main>
   );
 }

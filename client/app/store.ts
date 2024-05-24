@@ -9,7 +9,6 @@ interface AppState {
     code: string;
   };
   isTimerRunning: boolean;
-
   setChallengeFiles: (challengeFiles: { [key: string]: string }) => void;
   setCurrentCode: (fileName: string, code: string) => void;
   setIsTimerRunning: (isRunning: boolean) => void;

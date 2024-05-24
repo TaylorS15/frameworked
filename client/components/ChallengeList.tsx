@@ -17,7 +17,7 @@ export default function ChallengeList({ className }: { className?: string }) {
   });
 
   return (
-    <div className={cn("flex flex-col items-center bg-zinc-925", className)}>
+    <div className={cn("flex flex-col items-center", className)}>
       {data &&
         Object.keys(data).map((challenge) => {
           return <ChallengeItem key={challenge} challenge={challenge} />;
@@ -37,7 +37,7 @@ function ChallengeItem({ challenge }: { challenge: string }) {
       {data && (
         <Link
           href={`/challenge/${challenge}/${Object.keys(data.frameworks)[0]}`}
-          className="flex h-16 min-h-16 w-full items-center justify-between border border-zinc-700 bg-zinc-950 pl-4 pr-2 transition-all hover:bg-gradient-to-br hover:from-zinc-900/50 hover:to-zinc-900/10"
+          className="flex h-16 min-h-16 w-full items-center justify-between bg-zinc-950 pl-4 pr-2 transition-all hover:bg-gradient-to-br hover:from-zinc-900/50 hover:to-zinc-900/10"
         >
           <div className="flex gap-4">
             <h1 className="text-sm leading-6 text-zinc-400">{challenge.split("-")[0]}</h1>
